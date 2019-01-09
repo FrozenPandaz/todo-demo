@@ -1,0 +1,141 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "todo-app": {
+      "root": "apps/todo-app/",
+      "sourceRoot": "apps/todo-app/src",
+      "projectType": "application",
+      "prefix": "todo-demo",
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/todo-app",
+            "index": "apps/todo-app/src/index.html",
+            "main": "apps/todo-app/src/main.ts",
+            "polyfills": "apps/todo-app/src/polyfills.ts",
+            "tsConfig": "apps/todo-app/tsconfig.app.json",
+            "assets": [
+              "apps/todo-app/src/favicon.ico",
+              "apps/todo-app/src/assets"
+            ],
+            "styles": ["apps/todo-app/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/todo-app/src/environments/environment.ts",
+                  "with": "apps/todo-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "todo-app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "todo-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "todo-app:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/todo-app/tsconfig.app.json",
+              "apps/todo-app/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/todo-app/jest.config.js",
+            "tsConfig": "apps/todo-app/tsconfig.spec.json",
+            "setupFile": "apps/todo-app/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "todo-app-e2e": {
+      "root": "apps/todo-app-e2e",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/builders:cypress",
+          "options": {
+            "cypressConfig": "apps/todo-app-e2e/cypress.json",
+            "tsConfig": "apps/todo-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "todo-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "todo-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/todo-app-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false
+    },
+    "defaultCollection": "@nrwl/schematics",
+    "packageManager": "yarn"
+  },
+  "schematics": {
+    "@nrwl/schematics:application": {
+      "style": "scss"
+    },
+    "@nrwl/schematics:library": {
+      "style": "scss"
+    }
+  },
+  "defaultProject": "todo-app"
+}

@@ -1,0 +1,12 @@
+    <label for="text">Task</label>
+    <input type="text" class="form-control" id="text"
+           required
+           [(ngModel)]="text" name="text">
+
+    <button (click)="addTask()">Add Task</button>
+
+    <ul>
+        <li *ngFor="let task of tasks$ | async">
+            {{ task.id }}. {{ task.text }} {{ task.done ? 'DONE': 'TODO' }}
+        </li>
+    </ul>
